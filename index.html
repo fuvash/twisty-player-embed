@@ -25,16 +25,18 @@
       overflow: hidden;
     }
 
+    twisty-player,
+    twisty-alg-viewer {
+      width: min(100%, 300px);
+    }
+
     twisty-player {
-      width: 100%;
-      max-width: 300px;
       height: 400px;
       margin-top: -30px;
     }
 
     twisty-alg-viewer {
-      width: min(100%, 480px);
-      margin-top: -30px;
+      margin-top: 0;
     }
   </style>
 </head>
@@ -45,11 +47,8 @@
       id="fto-player"
       puzzle="fto"
       background="none"
-      experimental-stickering-mask-orbits="C4RNER:I-I-I-,CENTERS:-I-II---------III------I,EDGES:------------"
-      experimental-setup-alg="LBLv R' U F' U' F R"
-      alg="R' // Attach corner to the triangle
-F' U F // Attach the corner and triangle pair to the half center
-U' R // Solve the pair and half center group">
+      experimental-setup-alg="LBLv"
+      alg="">
     </twisty-player>
 
     <twisty-alg-viewer for="fto-player"></twisty-alg-viewer>
