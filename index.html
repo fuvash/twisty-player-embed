@@ -3,34 +3,79 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+
   <script
-    type="module"
-    src="https://cdn.cubing.net/v0/js/cubing/twisty">
+    src="https://cdn.cubing.net/v0/js/cubing/twisty"
+    type="module">
   </script>
+
   <style>
-    html, body {
-      width: 100%;
-      height: 100%;
+    html,
+    body {
       margin: 0;
+      padding: 0;
+      background: transparent;
     }
 
-    body {
-      display: grid;
-      place-items: center;
-      background: transparent;
+    .twisty-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+      overflow: hidden;
+    }
+
+    twisty-player {
+      width: 100%;
+      max-width: 300px;
+      height: 400px;
+      margin-top: -30px;
+    }
+
+    twisty-alg-viewer {
+      width: min(100%, 480px);
+      margin-top: -30px;
     }
   </style>
 </head>
+
 <body>
-  <twisty-player id="player"></twisty-player>
+  <main class="twisty-container">
+    <twisty-player
+      id="fto-player"
+      puzzle="fto"
+      background="none"
+      experimental-stickering-mask-orbits="C4RNER:I-I-I-,CENTERS:-I-II---------III------I,EDGES:------------"
+      experimental-setup-alg="LBLv R' U F' U' F R"
+      alg="R' // Attach corner to the triangle
+F' U F // Attach the corner and triangle pair to the half center
+U' R // Solve the pair and half center group">
+    </twisty-player>
+
+    <twisty-alg-viewer for="fto-player"></twisty-alg-viewer>
+  </main>
 
   <script type="module">
-    const params = new URLSearchParams(location.search);
-    const player = document.querySelector("#player");
+    await customElements.whenDefined("twisty-player");
 
-    player.puzzle = params.get("puzzle") ?? "3x3x3";
-    player.alg = params.get("alg") ?? "";
-    player.experimentalSetupAlg = params.get("setup") ?? "";
+    const params = new URLSearchParams(location.search);
+    const player = document.querySelector("#fto-player");
+
+    const alg = params.get("alg");
+    const setup = params.get("setup");
+    const mask = params.get("mask");
+
+    if (alg !== null) {
+      player.alg = alg;
+    }
+
+    if (setup !== null) {
+      player.experimentalSetupAlg = setup;
+    }
+
+    if (mask !== null) {
+      player.experimentalStickeringMaskOrbits = mask;
+    }
   </script>
 </body>
 </html>
