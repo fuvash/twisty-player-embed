@@ -13,8 +13,11 @@
     html,
     body {
       margin: 0;
-      padding: 0;
       background: transparent;
+    }
+
+    body {
+      padding: 12px;
     }
 
     .twisty-container {
@@ -25,18 +28,20 @@
       overflow: hidden;
     }
 
-    twisty-player,
-    twisty-alg-viewer {
-      width: min(100%, 300px);
-    }
-
     twisty-player {
-      height: 400px;
-      margin-top: -30px;
+      width: 256px;
+      height: 316px;
     }
 
     twisty-alg-viewer {
-      margin-top: 0;
+      box-sizing: border-box;
+      width: min(100%, 256px);
+      padding: 8px;
+      background: #aaaa;
+    }
+
+    twisty-alg-viewer.is-hidden {
+      display: none;
     }
   </style>
 </head>
@@ -46,12 +51,21 @@
     <twisty-player
       id="fto-player"
       puzzle="fto"
+      style="
+        width: 256px;
+        height: 316px;
+        margin: auto;
+        background: #aaaa;
+      "
       background="none"
       experimental-setup-alg="LBLv"
       alg="">
     </twisty-player>
 
-    <twisty-alg-viewer for="fto-player"></twisty-alg-viewer>
+    <twisty-alg-viewer
+      id="fto-alg-viewer"
+      for="fto-player">
+    </twisty-alg-viewer>
   </main>
 
   <script type="module">
@@ -59,10 +73,12 @@
 
     const params = new URLSearchParams(location.search);
     const player = document.querySelector("#fto-player");
+    const algViewer = document.querySelector("#fto-alg-viewer");
 
     const alg = params.get("alg");
     const setup = params.get("setup");
     const mask = params.get("mask");
+    const viewer = params.get("viewer");
 
     if (alg !== null) {
       player.alg = alg;
@@ -74,6 +90,12 @@
 
     if (mask !== null) {
       player.experimentalStickeringMaskOrbits = mask;
+    }
+
+    const hiddenViewerValues = ["0", "false", "off"];
+
+    if (viewer !== null && hiddenViewerValues.includes(viewer.toLowerCase())) {
+      algViewer.classList.add("is-hidden");
     }
   </script>
 </body>
